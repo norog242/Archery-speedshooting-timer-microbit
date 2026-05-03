@@ -1,0 +1,35 @@
+input.onButtonPressed(Button.A, function () {
+    Steps = 0
+    Startzeit = 0
+    dauer = 0
+    basic.showNumber(Steps)
+})
+let dauer = 0
+let Startzeit = 0
+let Steps = 0
+basic.showIcon(IconNames.SmallSquare)
+basic.forever(function () {
+    // Nur zählen, wenn wir unter 10 Schritten sind
+    if (Steps < 10) {
+        if (input.acceleration(Dimension.Strength) > 1200) {
+            Steps += 1
+            // Beim allerersten Schritt die Startzeit merken
+            if (Steps == 1) {
+                Startzeit = input.runningTime()
+            }
+            // Wenn wir bei 10 angekommen sind, Zeit berechnen und anzeigen
+            if (Steps == 10) {
+                // Dauer = (Jetzt - Start) / 1000 für Sekunden
+                dauer = (input.runningTime() - Startzeit) / 1000
+                for (let index = 0; index < 5; index++) {
+                    basic.showNumber(dauer)
+                    // Kurze Pause zur Anzeige
+                    basic.pause(1000)
+                }
+                basic.showIcon(IconNames.Happy)
+            } else {
+                basic.showNumber(Steps)
+            }
+        }
+    }
+})
